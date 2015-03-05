@@ -1,0 +1,21 @@
+{
+  "name": "forecastr",
+  "version": "1.0.0",
+  "description": "A little weather app to teach/learn node.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Laura Steadman",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.12.2",
+    "forecast.io": "0.0.9"
+  },
+  "devDependencies": {
+    "chai": "^2.1.1",
+    "mocha": "^2.1.0",
+    "node-dev": "^2.6.1",
+    "sinon": "^1.12.2"
+  }
+}
