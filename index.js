@@ -1,30 +1,17 @@
 var express = require('express');
-var Forecast = require('forecast.io');
+var controllers = require('./controllers');
+
+require('dotenv').load();
 
 var app = express();
-var PORT = 3000;
+var PORT = process.env.MAIN_PORT;
 
-app.get('/', function (req, response) {
-  var options = {
-    APIKey: 'YOURAPIKEY',
-    timeout: 1000
-  };
+app.set('views', './views')
+app.set('view engine', 'jade')
 
-  var forecast = new Forecast(options);
-  var latitude = 39.7392;
-  var longitude = -104.99;
+//ROUTES GO HERE:
+app.get('/', controllers.index);
 
-  forecast.get(latitude, longitude, function(err, res, data) {
-    if (err) throw err;
-
-    var dailySummary = data.daily.summary;
-    var currentTemp = data.currently.temperature;
-
-    var html = "<h1>The Weather in Denver is</h1><p>" + dailySummary + "</p><p>The temperature is currently:" + currentTemp+ "</p>";
-
-    response.send(html)
-  });
-});
 
 var server = app.listen(PORT, function() {
   var host = server.address().address
