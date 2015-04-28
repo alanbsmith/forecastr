@@ -1,9 +1,7 @@
 var Forecast = require('forecast.io');
+var Async = require('async');
 
-var getWeather = function() {
-  var dailySummary;
-  var currentTemp;
-
+var getWeather = function(outerCallback) {
   var options = {
     APIKey: process.env.APIKEY,
     timeout: 1000
@@ -13,18 +11,20 @@ var getWeather = function() {
   var latitude = 39.7392;
   var longitude = -104.99;
 
- forecast.get(latitude, longitude, function(err, res, data) {
-    if (err) throw err;
+  Async.series([
+    function(callback) {
+      forecast.get(latitude, longitude, function(err, res, data) {
+        if (err) throw err;
 
-    dailySummary = data.daily.summary;
-    currentTemp = data.currently.temperature;
+        var dailySummary = data.daily.summary;
+        var currentTemp = data.currently.temperature;
 
-    console.log('dailySummary', dailySummary);
-
+        callback(null, {dailySummary: dailySummary, currentTemp: currentTemp});
+      });
+    }
+  ], function(err, result) {
+    outerCallback(null, result[0]);
   });
-
- console.log('out here');
-  return [ 'something', 'something else' ]
 }
 
 module.exports = getWeather;
