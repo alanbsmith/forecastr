@@ -1,15 +1,17 @@
 var Forecast = require('forecast.io');
 var Async = require('async');
 
-var getWeather = function(outerCallback) {
+var getWeather = function(params, outerCallback) {
+  console.log('params', params);
+  var latitude = parseFloat(params.lat) //39.7392;
+  var longitude = parseFloat(params.lon) //-104.99;
+
   var options = {
     APIKey: process.env.APIKEY,
     timeout: 1000
   };
 
   var forecast = new Forecast(options);
-  var latitude = 39.7392;
-  var longitude = -104.99;
 
   Async.series([
     function(callback) {

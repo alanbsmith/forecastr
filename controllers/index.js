@@ -3,11 +3,11 @@ var Controller = {};
 var Async = require('async');
 
 Controller.index = function(req, response) {
- // call the getWeather service to tell us what the weather is.
- // send those variables into the hash below so we can render them.
+  var params = req.query;
+
   Async.series([
     function(callback) {
-      new getWeather(callback);
+      new getWeather(params, callback);
     }
   ], function(err, result) {
     response.render('index', {
